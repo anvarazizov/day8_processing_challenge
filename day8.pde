@@ -1,30 +1,34 @@
 import java.util.Calendar;
 
-color colorOne, colorTwo;
-int h, s, b;
+color colorOne;
 boolean isDrawing = true;
 int actRandomSeed = 0;
+int strokeFactor = 1;
+int rotateFactor = 6;
+int linesDistance = 4;
+int h = (int)(random(50, 200));
+int s = (int)(random(100, 200));
+int b = (int)(random(100, 200));
 
 void setup() {
   size(640, 640);
   background(255);
-  colorMode(HSB);
-  h = (int)(random(0, 200));
-  s = (int)(random(240, 260));
-  b = (int)(random(240, 260));
+  smooth();
+  colorMode(RGB);
 }
 
 void draw() {
-
+  translate(width/2, height/2);
   if (isDrawing) {
     randomSeed(actRandomSeed); 
     actRandomSeed = (int) random(100000);
-    for (int i = 0; i <= width; i+=random(30)) {
-      colorOne = color(random(h), random(s), random(100, b));
+    for (int i = 0; i <= width; i+=random(linesDistance)) {
+      colorOne = color(random(i), random(s), random(b + noise(i)));
       stroke(colorOne);
-      strokeWeight(noise(i)*5);
+      strokeWeight(noise(width)*strokeFactor);
       line(i, 0, i, width); 
-//      line(0, i, width, i); 
+      line(0, i, width, i); 
+      rotate(-PI/rotateFactor);
       println(i);
     }
   }
